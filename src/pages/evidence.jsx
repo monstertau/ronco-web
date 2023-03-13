@@ -44,7 +44,6 @@ function Evidence() {
       const { data } = await axios.get(`${config.host}/evidence?limit=${config.pageSize}&from=0`)
       const { total_hits, evidences } = data
       const formatDataEvidences = await formatResponse(evidences)
-
       setLoading(false)
       setTotal(total_hits)
       setItems(formatDataEvidences)
