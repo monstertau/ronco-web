@@ -33,6 +33,11 @@ const items = [
     key: 'evidence',
     icon: <FieldNumberOutlined />,
   },
+  {
+    label: <Link to="/extract">Extract</Link>,
+    key: 'extract',
+    icon: <FieldNumberOutlined />,
+  },
 ];
 
 const NavBar = () =>{
