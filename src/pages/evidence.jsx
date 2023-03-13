@@ -1,5 +1,5 @@
 import { EditOutlined } from "@ant-design/icons";
-import { Button, Drawer, Space, Table, Card } from "antd";
+import { Button, Card, Drawer, Space, Table } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 // import Highlighter from 'react-hightlight-colors'
@@ -32,15 +32,9 @@ function Evidence() {
   const [visible, setVisible] = useState(false);
   const [viewDetailsId, setViewDetailsId] = useState(null);
   const [myPost, setMyPost] = useState("");
-
   const [selectedData, setSelectedData] = useState(null);
-
   const [group, setGroup] = useState([])
   const [fullArrText, setFullArrText] = useState([])
-
-  console.log("selectedData:", selectedData)
-
-
 
   const getDataEvidence = async () => {
 
@@ -66,8 +60,6 @@ function Evidence() {
     getDataEvidence()
   }, [])
 
-
-
   const transformArray = (arr = []) => {
     const res = [];
     let dataFullText = []
@@ -85,30 +77,17 @@ function Evidence() {
     for (let index = 0; index < res.length; index++) {
       const element = res[index]?.textsInType;
       dataFullText.push(element)
-
-
     }
-
-
     return { res, dataFullText: [...new Set(dataFullText.flat())] }
   };
 
-
-
   const handleView = async (id) => {
-
     try {
       if (id) {
         const { data } = await axios.get(`${config.host}/evidence/${id}`)
-
         console.log("datadatadata", data)
-
-
-        const dataText = `${data?.title}${data?.abstract}`
-
+        const dataText = `${data?.abstract}`
         const { res, dataFullText } = transformArray(data?.annotations)
-
-
 
         setGroup(res)
         setFullArrText(dataFullText)
@@ -224,53 +203,34 @@ function Evidence() {
 
   const highlightText = (text, textToMatch) => {
     const matchRegex = RegExp(textToMatch.join("|"), "ig");
-
-
     const matches = [...text.matchAll(matchRegex)];
-
-
     // this consist of the color array 
     const color = ["green", "red", "yellow", "blue", "black"];
-
     // const group
     return text.split(matchRegex).map((nonBoldText, index, arr) => {
-
       const labelMatches = matches[index] && matches[index][0]
-
       const labelInGroup = group?.find((g) => g?.textsInType?.includes(labelMatches))?.ann_type
-
-
       const indexColor = group.findIndex(x => x.ann_type === labelInGroup);
-
-
-
-
-
       return (
-        (
-          <div key={index}>
-            {nonBoldText}
-            {index + 1 !== arr.length && (
-              <mark
-                style={{
-                  // and this match the color index and textMatchIndex
-                  backgroundColor:
-                    color[
-                    indexColor
-                    ]
-                }}
-              >
-                {matches[index]}
-              </mark>
-            )}
-          </div>
-        )
+        <span key={index}>
+          {nonBoldText}{index + 1 !== arr.length && (
+            <mark
+              style={{
+                // and this match the color index and textMatchIndex
+                backgroundColor:
+                  color[
+                  indexColor
+                  ]
+              }}
+            >
+              {matches[index]}
+            </mark>
+          )}
+        </span>
+
       )
     });
   };
-
-
-
 
   return (
     <div>
@@ -332,6 +292,13 @@ function Evidence() {
           onReset();
         }}
       >
+        <h1>
+          {highlightText(
+            selectedData?.title ?? "",
+            fullArrText
+          )}
+        </h1>
+
         {highlightText(
           myPost,
           fullArrText
@@ -339,7 +306,6 @@ function Evidence() {
 
         <Card
           title={"Dũng thêm tên nhé          "}
-
         >
           <Table
             scroll={{
@@ -347,17 +313,11 @@ function Evidence() {
             }}
             columns={columns2}
             dataSource={selectedData?.raw_relations}
-
           />
         </Card>
-
-
-
       </Drawer>
     </div>
   );
-
-
 }
 
 export default Evidence;
