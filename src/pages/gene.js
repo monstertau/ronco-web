@@ -11,7 +11,7 @@ const formatResponse = (data) => {
       disease: data[i].disease.name ? data[i].disease.name : "",
       gene: data[i].gene ? data[i].gene.name : "",
       variant: data[i].variant ? data[i].variant.name : "",
-      drug: data[i].drug ? data[i].drug.id : "",
+      drug: data[i].drug ? data[i].drug.name : "",
       relation: data[i].relation_type ? data[i].relation_type : "",
       doc_num: data[i].pmids ? data[i].pmids.length : 0,
     });
