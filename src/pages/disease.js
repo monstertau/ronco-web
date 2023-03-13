@@ -2,6 +2,7 @@ import { Table, Tag } from "antd";
 import axios from "axios";
 import React from "react";
 import config from "../config";
+import { Link } from 'react-router-dom';
 
 const formatResponse = (data) => {
   let res = [];
@@ -9,6 +10,7 @@ const formatResponse = (data) => {
   for (let i = 0; i < data.length; i++) {
     res.push({
       disease: data[i].disease.name ? data[i].disease.name : "",
+      diseaseId: data[i].disease.id ? data[i].disease.id : "",
       gene: data[i].gene ? data[i].gene.name : "",
       variant: data[i].variant ? data[i].variant.name : "",
       drug: data[i].drug ? data[i].drug.id : "",
@@ -41,17 +43,22 @@ class Disease extends React.Component {
       });
   }
 
+
+
+
   columns = [
     {
       title: "Disease name",
       dataIndex: "disease",
       key: "disease",
       sorter: (a, b) => (a.disease < b.disease ? -1 : 1),
-      render: (text) =>
+      render: ( text,row) =>
         text ? (
+          <Link to={`/disease/${row?.diseaseId}`}>
           <Tag color="pink" key={text}>
-            {text.toUpperCase()}
+            {text.toUpperCase()} 
           </Tag>
+          </Link>
         ) : (
           ""
         ),
@@ -119,6 +126,9 @@ class Disease extends React.Component {
   ];
 
   render() {
+    const {items} = this.state;
+
+    console.log("itemsitemsitemsitems:",items)
     return (
       <div>
         <div

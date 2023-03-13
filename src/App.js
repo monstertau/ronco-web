@@ -8,6 +8,7 @@ import Variant from './pages/variant';
 import Gene from './pages/gene';
 import Drug from './pages/drug';
 import Evidence from './pages/evidence';
+import DiseaseDetail from './pages/DiseaseDetail';
 
 function App() {
   return (
@@ -19,7 +20,9 @@ function App() {
         <Route path='/gene' Component={Gene} />
         <Route path='/variant' Component={Variant} />
         <Route path='/drug' Component={Drug} />
+        <Route path='/disease/:id' Component={DiseaseDetail} />
         <Route path='/evidence' Component={Evidence} />
+
       </Routes>
     </Router>
   );
