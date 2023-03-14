@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { EditOutlined } from "@ant-design/icons";
 import { Button, Card, Drawer, Space, Table } from "antd";
 import axios from "axios";
@@ -40,7 +41,7 @@ function Evidence() {
 
     try {
       setLoading(true)
-
+      console.log(total)
       const { data } = await axios.get(`${config.host}/evidence?limit=${config.pageSize}&from=0`)
       const { total_hits, evidences } = data
       const formatDataEvidences = await formatResponse(evidences)
